@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($env:Path = \"C:\\\\laragon\\\\bin\\\\nodejs\\\\node-v22;\" + $env:Path; npm run build 2>&1)",
+      "Bash(php -l app/Http/Controllers/AccountController.php)",
+      "Bash(php -l database/migrations/2026_08_21_075442_add_plan_period_started_at_to_accounts_table.php)",
+      "Bash(php -l app/Services/FakeConsultantAi.php)",
+      "Bash(php -l app/Models/AccountInvitation.php)",
+      "Bash(php -l app/Notifications/AccountInvitationNotification.php)",
+      "Bash(php -l lang/pt_BR/notifications.php)",
+      "Bash(php -l lang/en/notifications.php)",
+      "Bash(php -l lang/es/notifications.php)"
+    ]
+  }
+}
