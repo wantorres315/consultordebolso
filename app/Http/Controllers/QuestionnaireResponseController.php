@@ -79,6 +79,10 @@ class QuestionnaireResponseController extends Controller
             $section->questions = $section->questions->map(function ($question) use ($answers) {
                 $question->answer = $answers->get($question->id);
 
+                if ($question->options) {
+                    $question->options = $question->optionsForLocale();
+                }
+
                 return $question;
             });
 

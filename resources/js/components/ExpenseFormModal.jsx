@@ -1,24 +1,40 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { createExpense, updateExpense } from '../lib/api';
+import { createExpense, createRecurringExpense, updateExpense } from '../lib/api';
+import CategorySelect from './CategorySelect';
 
-const emptyForm = {
-    description: '',
-    category: '',
-    amount: '',
-    expense_date: new Date().toISOString().slice(0, 10),
-    notes: '',
-};
+function todayLocalDateString() {
+    const today = new Date();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
 
-export default function ExpenseFormModal({ expense, onClose, onSaved }) {
+    return `${today.getFullYear()}-${month}-${day}`;
+}
+
+function buildEmptyForm(defaultDate) {
+    return {
+        description: '',
+        category_id: '',
+        amount: '',
+        expense_date: defaultDate ?? todayLocalDateString(),
+        notes: '',
+        recurring: false,
+        months: 12,
+    };
+}
+
+export default function ExpenseFormModal({ expense, defaultDate, onClose, onSaved }) {
     const { t } = useTranslation();
-    const [form, setForm] = useState(expense ? { ...emptyForm, ...expense } : emptyForm);
+    const [form, setForm] = useState(() => {
+        const emptyForm = buildEmptyForm(defaultDate);
+        return expense ? { ...emptyForm, ...expense } : emptyForm;
+    });
     const [errors, setErrors] = useState({});
     const [submitting, setSubmitting] = useState(false);
 
     function handleChange(event) {
-        const { name, value } = event.target;
-        setForm((previous) => ({ ...previous, [name]: value }));
+        const { name, value, type, checked } = event.target;
+        setForm((previous) => ({ ...previous, [name]: type === 'checkbox' ? checked : value }));
     }
 
     async function handleSubmit(event) {
@@ -27,12 +43,31 @@ export default function ExpenseFormModal({ expense, onClose, onSaved }) {
         setErrors({});
 
         try {
-            const { data } = expense ? await updateExpense(expense.id, form) : await createExpense(form);
-            onSaved(data);
+            const categoryId = form.category_id || null;
+
+            if (expense) {
+                const { data } = await updateExpense(expense.id, { ...form, category_id: categoryId });
+                onSaved(data);
+            } else if (form.recurring) {
+                const { data } = await createRecurringExpense({
+                    description: form.description,
+                    category_id: categoryId,
+                    amount: form.amount,
+                    start_date: form.expense_date,
+                    months: form.months,
+                    notes: form.notes,
+                });
+                onSaved(data.expenses[0]);
+            } else {
+                const { data } = await createExpense({ ...form, category_id: categoryId });
+                onSaved(data);
+            }
             onClose();
         } catch (error) {
             if (error.response?.status === 422) {
-                setErrors(error.response.data.errors ?? {});
+                const responseErrors = error.response.data.errors ?? {};
+                if (responseErrors.start_date) responseErrors.expense_date = responseErrors.start_date;
+                setErrors(responseErrors);
             } else {
                 setErrors({ description: [t('common.genericError')] });
             }
@@ -79,19 +114,13 @@ export default function ExpenseFormModal({ expense, onClose, onSaved }) {
                         )}
                     </div>
 
-                    <div>
-                        <label className="mb-1 block text-sm font-medium text-ink">
-                            {t('expenseFormModal.category')}
-                        </label>
-                        <input
-                            type="text"
-                            name="category"
-                            value={form.category ?? ''}
-                            onChange={handleChange}
-                            className="w-full rounded-xl border border-line px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none"
-                        />
-                        {errors.category && <p className="mt-1 text-sm text-red-600">{errors.category[0]}</p>}
-                    </div>
+                    <CategorySelect
+                        type="expense"
+                        label={t('expenseFormModal.category')}
+                        value={form.category_id}
+                        onChange={(categoryId) => setForm((previous) => ({ ...previous, category_id: categoryId }))}
+                        error={errors.category_id}
+                    />
 
                     <div className="grid grid-cols-2 gap-3">
                         <div>
@@ -113,7 +142,7 @@ export default function ExpenseFormModal({ expense, onClose, onSaved }) {
 
                         <div>
                             <label className="mb-1 block text-sm font-medium text-ink">
-                                {t('expenseFormModal.date')}
+                                {form.recurring ? t('expenseFormModal.startDate') : t('expenseFormModal.date')}
                             </label>
                             <input
                                 type="date"
@@ -128,6 +157,42 @@ export default function ExpenseFormModal({ expense, onClose, onSaved }) {
                             )}
                         </div>
                     </div>
+
+                    {!expense && (
+                        <div>
+                            <label className="flex items-center gap-2 text-sm font-medium text-ink">
+                                <input
+                                    type="checkbox"
+                                    name="recurring"
+                                    checked={form.recurring}
+                                    onChange={handleChange}
+                                    className="rounded border-line text-brand focus:ring-brand"
+                                />
+                                {t('expenseFormModal.recurring')}
+                            </label>
+
+                            {form.recurring && (
+                                <div className="mt-2">
+                                    <label className="mb-1 block text-sm font-medium text-ink">
+                                        {t('expenseFormModal.months')}
+                                    </label>
+                                    <input
+                                        type="number"
+                                        step="1"
+                                        min="2"
+                                        max="120"
+                                        name="months"
+                                        value={form.months}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full rounded-xl border border-line px-3 py-2 text-sm text-ink focus:border-brand focus:outline-none"
+                                    />
+                                    {errors.months && <p className="mt-1 text-sm text-red-600">{errors.months[0]}</p>}
+                                    <p className="mt-1 text-xs text-muted">{t('expenseFormModal.recurringHelp')}</p>
+                                </div>
+                            )}
+                        </div>
+                    )}
 
                     <div>
                         <label className="mb-1 block text-sm font-medium text-ink">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Concerns\FiltersTranslations;
 use App\Http\Controllers\Admin\Concerns\ReordersPositions;
 use App\Http\Controllers\Controller;
 use App\Models\Questionnaire;
@@ -11,20 +12,32 @@ use Illuminate\Support\Facades\DB;
 
 class QuestionnaireSectionController extends Controller
 {
-    use ReordersPositions;
+    use FiltersTranslations, ReordersPositions;
+
+    private const TRANSLATABLE_FIELDS = ['title', 'objective'];
 
     public function store(Request $request, Questionnaire $questionnaire)
     {
         $data = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'objective' => ['nullable', 'string'],
+            'title' => ['required', 'array'],
+            'title.pt_BR' => ['required', 'string', 'max:255'],
+            'title.en' => ['nullable', 'string', 'max:255'],
+            'title.es' => ['nullable', 'string', 'max:255'],
+            'objective' => ['nullable', 'array'],
+            'objective.pt_BR' => ['nullable', 'string'],
+            'objective.en' => ['nullable', 'string'],
+            'objective.es' => ['nullable', 'string'],
         ]);
+
+        $data['title'] = $this->cleanTranslations($data['title']);
+        $data['objective'] = $this->cleanTranslations($data['objective'] ?? []);
 
         $position = $this->nextPosition(
             fn () => QuestionnaireSection::where('questionnaire_id', $questionnaire->id)
         );
 
         $section = $questionnaire->sections()->create([...$data, 'position' => $position]);
+        $section->translations = $this->translationsFor($section, self::TRANSLATABLE_FIELDS);
 
         return response()->json($section, 201);
     }
@@ -32,11 +45,21 @@ class QuestionnaireSectionController extends Controller
     public function update(Request $request, QuestionnaireSection $section)
     {
         $data = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'objective' => ['nullable', 'string'],
+            'title' => ['required', 'array'],
+            'title.pt_BR' => ['required', 'string', 'max:255'],
+            'title.en' => ['nullable', 'string', 'max:255'],
+            'title.es' => ['nullable', 'string', 'max:255'],
+            'objective' => ['nullable', 'array'],
+            'objective.pt_BR' => ['nullable', 'string'],
+            'objective.en' => ['nullable', 'string'],
+            'objective.es' => ['nullable', 'string'],
         ]);
 
+        $data['title'] = $this->cleanTranslations($data['title']);
+        $data['objective'] = $this->cleanTranslations($data['objective'] ?? []);
+
         $section->update($data);
+        $section->translations = $this->translationsFor($section, self::TRANSLATABLE_FIELDS);
 
         return response()->json($section);
     }

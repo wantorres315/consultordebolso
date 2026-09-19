@@ -4,6 +4,7 @@
     "save": "Guardar",
     "saving": "Guardando...",
     "close": "Cerrar",
+    "cancel": "Cancelar",
     "edit": "Editar",
     "delete": "Eliminar",
     "active": "Activo",
@@ -75,12 +76,22 @@
     "category": "Categoría",
     "amount": "Monto",
     "date": "Fecha",
-    "notes": "Notas"
+    "startDate": "Fecha de la 1ª cuota",
+    "notes": "Notas",
+    "recurring": "Repetir durante varios meses",
+    "months": "Cantidad de meses",
+    "recurringHelp": "Se creará un gasto por mes, con el mismo valor, a partir de la fecha indicada."
+  },
+  "categorySelect": {
+    "none": "Sin categoría",
+    "new": "+ Nueva",
+    "newPlaceholder": "Nombre de la categoría"
   },
   "paymentFormModal": {
     "title": "Registrar pago manual",
     "account": "Cuenta (opcional)",
     "noAccount": "Sin cuenta vinculada",
+    "category": "Categoría",
     "description": "Descripción",
     "descriptionPlaceholder": "Ej: Pago por Pix de Juan Pérez",
     "amount": "Monto",
@@ -112,6 +123,13 @@
     "subtitle": "Elige el plan ideal para tu momento.",
     "loading": "Cargando...",
     "empty": "No hay planes disponibles en este momento."
+  },
+  "videosPage": {
+    "title": "Vídeos",
+    "subtitle": "Mira todos nuestros vídeos.",
+    "loading": "Cargando...",
+    "empty": "No hay vídeos disponibles en este momento.",
+    "viewAll": "Ver todos los vídeos"
   },
   "assinar": {
     "backToPlans": "Ver todos los planes",
@@ -146,8 +164,8 @@
     "support": "Soporte"
   },
   "financeiroLayout": {
+    "summary": "Resumen",
     "expenses": "Gastos",
-    "invoices": "Facturas",
     "payments": "Pagos"
   },
   "adminDashboard": {
@@ -206,7 +224,7 @@
   },
   "adminFinanceiro": {
     "despesasTitle": "Gastos",
-    "faturasTitle": "Facturas",
+    "resumoTitle": "Resumen del mes",
     "pagamentosTitle": "Pagos",
     "loadError": "No se pudieron cargar los datos financieros.",
     "deleteError": "No se pudo eliminar este gasto.",
@@ -219,13 +237,22 @@
     "purchasesRevenue": "Ingresos por consultores sueltos",
     "manualRevenue": "Ingresos manuales",
     "totalExpenses": "Gastos totales",
-    "expensesThisMonth": "Gastos del mes",
+    "revenueInMonth": "Ingresos del mes",
+    "expensesInMonth": "Gastos en {{month}}",
+    "balance": "Saldo del mes",
+    "revenueByType": "Ingresos por tipo",
+    "expensesByCategory": "Gastos por categoría",
+    "noDataMonth": "Nada por aquí este mes.",
+    "previousMonth": "Mes anterior",
+    "nextMonth": "Mes siguiente",
     "paymentsEmpty": "Aún no hay pagos registrados.",
     "expensesEmpty": "Aún no hay gastos registrados.",
+    "expensesEmptyMonth": "No hay gastos en este mes.",
     "colDate": "Fecha",
     "colAccount": "Cuenta",
     "colDescription": "Descripción",
     "colType": "Tipo",
+    "colCategory": "Categoría",
     "colMethod": "Método",
     "colAmount": "Monto",
     "colCreatedBy": "Registrado por",
@@ -305,7 +332,7 @@
     "noHistory": "Aún no hay respuestas finalizadas.",
     "sentOn": "Enviado el {{date}}",
     "answersTab": "Respuestas",
-    "view": "Ver",
+    "noAiResponse": "Respuesta de la IA aún no disponible.",
     "purchaseOffer": "Tu cuenta alcanzó el límite de planes de bolso de este ciclo. Puedes comprar este plan de bolso individualmente por {{price}}.",
     "buyStandalone": "Comprar por {{price}}",
     "noCreditsLeft": "Tu cuenta alcanzó el límite de planes de bolso de este ciclo. Espera el próximo ciclo o contacta al soporte.",

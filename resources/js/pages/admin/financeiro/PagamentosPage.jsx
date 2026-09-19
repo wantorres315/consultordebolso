@@ -86,6 +86,7 @@ export default function PagamentosPage() {
                                 <th className="py-2 pr-4 font-medium">{t('adminFinanceiro.colAccount')}</th>
                                 <th className="py-2 pr-4 font-medium">{t('adminFinanceiro.colDescription')}</th>
                                 <th className="py-2 pr-4 font-medium">{t('adminFinanceiro.colType')}</th>
+                                <th className="py-2 pr-4 font-medium">{t('adminFinanceiro.colCategory')}</th>
                                 <th className="py-2 pr-4 font-medium">{t('adminFinanceiro.colMethod')}</th>
                                 <th className="py-2 pr-4 font-medium">{t('adminFinanceiro.colAmount')}</th>
                             </tr>
@@ -104,6 +105,7 @@ export default function PagamentosPage() {
                                     <td className="py-3 pr-4 text-muted">
                                         {t(TYPE_LABEL_KEYS[payment.type] ?? 'adminFinanceiro.typeManual')}
                                     </td>
+                                    <td className="py-3 pr-4 text-muted">{payment.category?.name ?? '—'}</td>
                                     <td className="py-3 pr-4 text-muted">
                                         {payment.method === 'manual'
                                             ? t('adminFinanceiro.methodManual')

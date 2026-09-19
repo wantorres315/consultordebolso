@@ -5,7 +5,9 @@ use App\Http\Controllers\AccountInvitationController;
 use App\Http\Controllers\AccountMemberController;
 use App\Http\Controllers\Admin\AccountController as AdminAccountController;
 use App\Http\Controllers\Admin\AccountInvitationController as AdminAccountInvitationController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\FinancialSummaryController as AdminFinancialSummaryController;
 use App\Http\Controllers\Admin\ExpenseController as AdminExpenseController;
 use App\Http\Controllers\Admin\HomeSectionController as AdminHomeSectionController;
 use App\Http\Controllers\Admin\ImpersonationController;
@@ -88,10 +90,18 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/payments', [AdminPaymentController::class, 'index']);
         Route::post('/payments', [AdminPaymentController::class, 'store']);
 
+        Route::get('/financial-summary', [AdminFinancialSummaryController::class, 'index']);
+
         Route::get('/expenses', [AdminExpenseController::class, 'index']);
         Route::post('/expenses', [AdminExpenseController::class, 'store']);
+        Route::post('/expenses/recurring', [AdminExpenseController::class, 'storeRecurring']);
         Route::put('/expenses/{expense}', [AdminExpenseController::class, 'update']);
         Route::delete('/expenses/{expense}', [AdminExpenseController::class, 'destroy']);
+
+        Route::get('/categories', [AdminCategoryController::class, 'index']);
+        Route::post('/categories', [AdminCategoryController::class, 'store']);
+        Route::put('/categories/{category}', [AdminCategoryController::class, 'update']);
+        Route::delete('/categories/{category}', [AdminCategoryController::class, 'destroy']);
 
         Route::get('/plans', [AdminPlanController::class, 'index']);
         Route::post('/plans', [AdminPlanController::class, 'store']);

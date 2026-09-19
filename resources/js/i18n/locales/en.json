@@ -4,6 +4,7 @@
     "save": "Save",
     "saving": "Saving...",
     "close": "Close",
+    "cancel": "Cancel",
     "edit": "Edit",
     "delete": "Delete",
     "active": "Active",
@@ -75,12 +76,22 @@
     "category": "Category",
     "amount": "Amount",
     "date": "Date",
-    "notes": "Notes"
+    "startDate": "First installment date",
+    "notes": "Notes",
+    "recurring": "Repeat over several months",
+    "months": "Number of months",
+    "recurringHelp": "This will create one expense per month, with the same amount, starting on the date above."
+  },
+  "categorySelect": {
+    "none": "No category",
+    "new": "+ New",
+    "newPlaceholder": "Category name"
   },
   "paymentFormModal": {
     "title": "Register manual payment",
     "account": "Account (optional)",
     "noAccount": "No linked account",
+    "category": "Category",
     "description": "Description",
     "descriptionPlaceholder": "E.g. Pix payment from John Smith",
     "amount": "Amount",
@@ -112,6 +123,13 @@
     "subtitle": "Choose the plan that fits your moment.",
     "loading": "Loading...",
     "empty": "No plans available right now."
+  },
+  "videosPage": {
+    "title": "Videos",
+    "subtitle": "Watch all of our videos.",
+    "loading": "Loading...",
+    "empty": "No videos available right now.",
+    "viewAll": "View all videos"
   },
   "assinar": {
     "backToPlans": "View all plans",
@@ -146,8 +164,8 @@
     "support": "Support"
   },
   "financeiroLayout": {
+    "summary": "Summary",
     "expenses": "Expenses",
-    "invoices": "Invoices",
     "payments": "Payments"
   },
   "adminDashboard": {
@@ -206,7 +224,7 @@
   },
   "adminFinanceiro": {
     "despesasTitle": "Expenses",
-    "faturasTitle": "Invoices",
+    "resumoTitle": "Monthly summary",
     "pagamentosTitle": "Payments",
     "loadError": "Couldn't load financial data.",
     "deleteError": "Couldn't delete this expense.",
@@ -219,13 +237,22 @@
     "purchasesRevenue": "Standalone purchase revenue",
     "manualRevenue": "Manual revenue",
     "totalExpenses": "Total expenses",
-    "expensesThisMonth": "Expenses this month",
+    "revenueInMonth": "Revenue this month",
+    "expensesInMonth": "Expenses in {{month}}",
+    "balance": "Balance this month",
+    "revenueByType": "Revenue by type",
+    "expensesByCategory": "Expenses by category",
+    "noDataMonth": "Nothing here this month.",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
     "paymentsEmpty": "No payments recorded yet.",
     "expensesEmpty": "No expenses logged yet.",
+    "expensesEmptyMonth": "No expenses this month.",
     "colDate": "Date",
     "colAccount": "Account",
     "colDescription": "Description",
     "colType": "Type",
+    "colCategory": "Category",
     "colMethod": "Method",
     "colAmount": "Amount",
     "colCreatedBy": "Logged by",
@@ -305,7 +332,7 @@
     "noHistory": "No finalized responses yet.",
     "sentOn": "Sent on {{date}}",
     "answersTab": "Answers",
-    "view": "View",
+    "noAiResponse": "AI response not available yet.",
     "purchaseOffer": "Your account has reached its wallet plan limit for this cycle. You can buy this wallet plan separately for {{price}}.",
     "buyStandalone": "Buy for {{price}}",
     "noCreditsLeft": "Your account has reached its wallet plan limit for this cycle. Wait for the next cycle or contact support.",

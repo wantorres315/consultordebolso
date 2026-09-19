@@ -4,6 +4,7 @@
     "save": "Salvar",
     "saving": "Salvando...",
     "close": "Fechar",
+    "cancel": "Cancelar",
     "edit": "Editar",
     "delete": "Excluir",
     "active": "Ativo",
@@ -75,12 +76,22 @@
     "category": "Categoria",
     "amount": "Valor",
     "date": "Data",
-    "notes": "Observações"
+    "startDate": "Data da 1ª parcela",
+    "notes": "Observações",
+    "recurring": "Repetir por vários meses",
+    "months": "Quantidade de meses",
+    "recurringHelp": "Vai lançar uma despesa por mês, com o mesmo valor, a partir da data informada."
+  },
+  "categorySelect": {
+    "none": "Sem categoria",
+    "new": "+ Nova",
+    "newPlaceholder": "Nome da categoria"
   },
   "paymentFormModal": {
     "title": "Registrar pagamento manual",
     "account": "Conta (opcional)",
     "noAccount": "Nenhuma conta vinculada",
+    "category": "Categoria",
     "description": "Descrição",
     "descriptionPlaceholder": "Ex: Pagamento via Pix de João Silva",
     "amount": "Valor",
@@ -112,6 +123,13 @@
     "subtitle": "Escolha o plano ideal para o seu momento.",
     "loading": "Carregando...",
     "empty": "Nenhum plano disponível no momento."
+  },
+  "videosPage": {
+    "title": "Vídeos",
+    "subtitle": "Assista a todos os nossos vídeos.",
+    "loading": "Carregando...",
+    "empty": "Nenhum vídeo disponível no momento.",
+    "viewAll": "Ver todos os vídeos"
   },
   "assinar": {
     "backToPlans": "Ver todos os planos",
@@ -146,8 +164,8 @@
     "support": "Suporte"
   },
   "financeiroLayout": {
+    "summary": "Resumo",
     "expenses": "Despesas",
-    "invoices": "Faturas",
     "payments": "Pagamentos"
   },
   "adminDashboard": {
@@ -206,7 +224,7 @@
   },
   "adminFinanceiro": {
     "despesasTitle": "Despesas",
-    "faturasTitle": "Faturas",
+    "resumoTitle": "Resumo do mês",
     "pagamentosTitle": "Pagamentos",
     "loadError": "Não foi possível carregar os dados financeiros.",
     "deleteError": "Não foi possível excluir esta despesa.",
@@ -219,13 +237,22 @@
     "purchasesRevenue": "Receita de avulsos",
     "manualRevenue": "Receita manual",
     "totalExpenses": "Despesas totais",
-    "expensesThisMonth": "Despesas no mês",
+    "revenueInMonth": "Receita no mês",
+    "expensesInMonth": "Despesas em {{month}}",
+    "balance": "Saldo do mês",
+    "revenueByType": "Receita por tipo",
+    "expensesByCategory": "Despesas por categoria",
+    "noDataMonth": "Nada por aqui neste mês.",
+    "previousMonth": "Mês anterior",
+    "nextMonth": "Próximo mês",
     "paymentsEmpty": "Nenhum pagamento registrado ainda.",
     "expensesEmpty": "Nenhuma despesa lançada ainda.",
+    "expensesEmptyMonth": "Nenhuma despesa neste mês.",
     "colDate": "Data",
     "colAccount": "Conta",
     "colDescription": "Descrição",
     "colType": "Tipo",
+    "colCategory": "Categoria",
     "colMethod": "Método",
     "colAmount": "Valor",
     "colCreatedBy": "Lançado por",
@@ -305,7 +332,7 @@
     "noHistory": "Nenhuma resposta finalizada ainda.",
     "sentOn": "Enviado em {{date}}",
     "answersTab": "Respostas",
-    "view": "Ver",
+    "noAiResponse": "Resposta da IA ainda não disponível.",
     "purchaseOffer": "Sua conta atingiu o limite de planos de bolso deste período. Você pode comprar este plano de bolso avulso por {{price}}.",
     "buyStandalone": "Comprar por {{price}}",
     "noCreditsLeft": "Sua conta atingiu o limite de planos de bolso deste período. Aguarde o próximo ciclo ou fale com o suporte.",

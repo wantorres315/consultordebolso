@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'questionnaire_response_id',
     'description',
     'type',
+    'category_id',
     'method',
     'mercadopago_payment_id',
     'amount',
@@ -37,5 +38,10 @@ class Payment extends Model
     public function questionnaireResponse(): BelongsTo
     {
         return $this->belongsTo(QuestionnaireResponse::class);
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 }

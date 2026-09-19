@@ -5,6 +5,7 @@ import { LocaleProvider } from './context/LocaleContext';
 import RequireRole from './router/RequireRole';
 import LandingPage from './pages/LandingPage';
 import PlanosPublicPage from './pages/PlanosPublicPage';
+import VideosPage from './pages/VideosPage';
 import AssinarPage from './pages/AssinarPage';
 import PagamentoPendentePage from './pages/PagamentoPendentePage';
 import PagamentoRetornoPage from './pages/PagamentoRetornoPage';
@@ -15,8 +16,8 @@ import AdminDashboardPage from './pages/admin/DashboardPage';
 import ClientesPage from './pages/admin/ClientesPage';
 import ClienteDetailPage from './pages/admin/ClienteDetailPage';
 import FinanceiroLayout from './layouts/FinanceiroLayout';
+import ResumoPage from './pages/admin/financeiro/ResumoPage';
 import DespesasPage from './pages/admin/financeiro/DespesasPage';
-import FaturasPage from './pages/admin/financeiro/FaturasPage';
 import PagamentosPage from './pages/admin/financeiro/PagamentosPage';
 import AdminQuestionariosPage from './pages/admin/QuestionariosPage';
 import QuestionarioBuilderPage from './pages/admin/QuestionarioBuilderPage';
@@ -46,6 +47,7 @@ export default function Root() {
                         <Routes>
                             <Route path="/" element={<LandingPage />} />
                             <Route path="/planos" element={<PlanosPublicPage />} />
+                            <Route path="/videos" element={<VideosPage />} />
                             <Route path="/assinar/:planId" element={<AssinarPage />} />
                             <Route path="/pagamento-pendente" element={<PagamentoPendentePage />} />
                             <Route path="/pagamento/retorno" element={<PagamentoRetornoPage />} />
@@ -64,9 +66,9 @@ export default function Root() {
                                 <Route path="clientes" element={<ClientesPage />} />
                                 <Route path="clientes/:accountId" element={<ClienteDetailPage />} />
                                 <Route path="financeiro" element={<FinanceiroLayout />}>
-                                    <Route index element={<Navigate to="despesas" replace />} />
+                                    <Route index element={<Navigate to="resumo" replace />} />
+                                    <Route path="resumo" element={<ResumoPage />} />
                                     <Route path="despesas" element={<DespesasPage />} />
-                                    <Route path="faturas" element={<FaturasPage />} />
                                     <Route path="pagamentos" element={<PagamentosPage />} />
                                 </Route>
                                 <Route path="planos" element={<PlanosPage />} />

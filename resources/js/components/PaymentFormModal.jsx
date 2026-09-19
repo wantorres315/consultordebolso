@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createManualPayment, fetchAdminAccounts } from '../lib/api';
+import CategorySelect from './CategorySelect';
 
 const emptyForm = {
     account_id: '',
+    category_id: '',
     description: '',
     amount: '',
     paid_at: new Date().toISOString().slice(0, 10),
@@ -37,6 +39,7 @@ export default function PaymentFormModal({ onClose, onSaved }) {
             const { data } = await createManualPayment({
                 ...form,
                 account_id: form.account_id || null,
+                category_id: form.category_id || null,
             });
             onSaved(data);
             onClose();
@@ -91,6 +94,14 @@ export default function PaymentFormModal({ onClose, onSaved }) {
                             <p className="mt-1 text-sm text-red-600">{errors.account_id[0]}</p>
                         )}
                     </div>
+
+                    <CategorySelect
+                        type="payment"
+                        label={t('paymentFormModal.category')}
+                        value={form.category_id}
+                        onChange={(categoryId) => setForm((previous) => ({ ...previous, category_id: categoryId }))}
+                        error={errors.category_id}
+                    />
 
                     <div>
                         <label className="mb-1 block text-sm font-medium text-ink">

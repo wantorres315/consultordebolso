@@ -32,32 +32,31 @@ export default function PastResponsesList({ questionnaireId, questionnaireTitle,
                 <p className="mt-2 text-sm text-muted">{t('questionnaireResponder.noHistory')}</p>
             )}
 
-            <ul className="mt-2 divide-y divide-line">
+            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {responses.map((response) => (
-                    <li key={response.id} className="flex items-center justify-between py-3 text-sm">
-                        <div>
-                            <div className="text-ink">
-                                {t('questionnaireResponder.sentOn', {
-                                    date: new Intl.DateTimeFormat(locale, {
-                                        dateStyle: 'medium',
-                                        timeStyle: 'short',
-                                    }).format(new Date(response.finalized_at)),
-                                })}
-                            </div>
-                            <div className="text-muted">
-                                {response.answered_count}/{response.total_questions}
-                            </div>
+                    <button
+                        key={response.id}
+                        type="button"
+                        onClick={() => onOpenResponse(response.id, true)}
+                        className="flex flex-col gap-2 rounded-2xl border border-line bg-surface p-5 text-left shadow-sm transition-shadow hover:shadow-md"
+                    >
+                        <div className="text-sm font-medium text-ink">
+                            {t('questionnaireResponder.sentOn', {
+                                date: new Intl.DateTimeFormat(locale, {
+                                    dateStyle: 'medium',
+                                    timeStyle: 'short',
+                                }).format(new Date(response.finalized_at)),
+                            })}
                         </div>
-                        <button
-                            type="button"
-                            onClick={() => onOpenResponse(response.id, true)}
-                            className="text-sm font-medium text-ink underline-offset-4 hover:underline"
-                        >
-                            {t('questionnaireResponder.view')}
-                        </button>
-                    </li>
+                        <div className="text-xs text-muted">
+                            {response.answered_count}/{response.total_questions}
+                        </div>
+                        <p className="line-clamp-4 text-sm text-muted">
+                            {response.ai_response || t('questionnaireResponder.noAiResponse')}
+                        </p>
+                    </button>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 }

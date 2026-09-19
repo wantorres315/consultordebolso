@@ -75,6 +75,10 @@ export async function createManualPayment(data) {
     return api.post('/api/admin/payments', data);
 }
 
+export async function fetchAdminFinancialSummary(params) {
+    return api.get('/api/admin/financial-summary', { params });
+}
+
 export async function fetchAdminExpenses(params) {
     return api.get('/api/admin/expenses', { params });
 }
@@ -83,12 +87,32 @@ export async function createExpense(data) {
     return api.post('/api/admin/expenses', data);
 }
 
+export async function createRecurringExpense(data) {
+    return api.post('/api/admin/expenses/recurring', data);
+}
+
 export async function updateExpense(id, data) {
     return api.put(`/api/admin/expenses/${id}`, data);
 }
 
 export async function deleteExpense(id) {
     return api.delete(`/api/admin/expenses/${id}`);
+}
+
+export async function fetchAdminCategories(type) {
+    return api.get('/api/admin/categories', { params: { type } });
+}
+
+export async function createAdminCategory(data) {
+    return api.post('/api/admin/categories', data);
+}
+
+export async function updateAdminCategory(id, data) {
+    return api.put(`/api/admin/categories/${id}`, data);
+}
+
+export async function deleteAdminCategory(id) {
+    return api.delete(`/api/admin/categories/${id}`);
 }
 
 export async function fetchPlans() {

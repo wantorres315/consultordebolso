@@ -12,11 +12,11 @@ export default function FinanceiroLayout() {
     return (
         <div>
             <div className="mb-6 flex items-center gap-6 border-b border-line">
+                <NavLink to="resumo" className={tabClass}>
+                    {t('financeiroLayout.summary')}
+                </NavLink>
                 <NavLink to="despesas" className={tabClass}>
                     {t('financeiroLayout.expenses')}
-                </NavLink>
-                <NavLink to="faturas" className={tabClass}>
-                    {t('financeiroLayout.invoices')}
                 </NavLink>
                 <NavLink to="pagamentos" className={tabClass}>
                     {t('financeiroLayout.payments')}

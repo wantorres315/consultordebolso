@@ -10,7 +10,7 @@ class PaymentController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Payment::query()->with('account:id,name')->latest('paid_at');
+        $query = Payment::query()->with(['account:id,name', 'category'])->latest('paid_at');
 
         if ($request->filled('type')) {
             $query->where('type', $request->string('type'));
@@ -44,6 +44,7 @@ class PaymentController extends Controller
     {
         $data = $request->validate([
             'account_id' => ['nullable', 'exists:accounts,id'],
+            'category_id' => ['nullable', 'exists:categories,id'],
             'description' => ['required', 'string', 'max:255'],
             'amount' => ['required', 'numeric', 'min:0.01'],
             'paid_at' => ['required', 'date'],
@@ -52,6 +53,7 @@ class PaymentController extends Controller
 
         $payment = Payment::create([
             'account_id' => $data['account_id'] ?? null,
+            'category_id' => $data['category_id'] ?? null,
             'description' => $data['description'],
             'type' => 'manual',
             'method' => 'manual',
@@ -62,7 +64,7 @@ class PaymentController extends Controller
             'notes' => $data['notes'] ?? null,
         ]);
 
-        $payment->load('account:id,name');
+        $payment->load(['account:id,name', 'category']);
 
         return response()->json($payment, 201);
     }

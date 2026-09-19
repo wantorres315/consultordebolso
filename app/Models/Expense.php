@@ -6,7 +6,10 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['description', 'category', 'amount', 'currency', 'expense_date', 'created_by', 'notes'])]
+#[Fillable([
+    'description', 'category_id', 'amount', 'currency', 'expense_date', 'created_by', 'notes',
+    'recurring_group_id', 'installment_number', 'installment_total',
+])]
 class Expense extends Model
 {
     protected function casts(): array
@@ -20,5 +23,10 @@ class Expense extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 }

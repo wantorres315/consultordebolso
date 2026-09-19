@@ -26,7 +26,7 @@ class QuestionnaireAnswerController extends Controller
             ],
             'single_choice', 'multi_choice' => [
                 'value.options' => ['array'],
-                'value.options.*' => [Rule::in($question->options ?? [])],
+                'value.options.*' => [Rule::in(collect($question->options ?? [])->pluck('key')->all())],
                 'value.other' => ['nullable', 'string'],
             ],
             default => [],

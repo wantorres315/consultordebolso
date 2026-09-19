@@ -1,22 +1,42 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { fetchAdminExpenses, deleteExpense } from '../../../lib/api';
 import { formatCurrency } from '../../../lib/currency';
+import useMonthNavigator, { toDateString } from '../../../hooks/useMonthNavigator';
 import StatTile from '../../../components/StatTile';
 import IconButton from '../../../components/IconButton';
+import MonthNavigator from '../../../components/MonthNavigator';
 import ExpenseFormModal from '../../../components/ExpenseFormModal';
 
 export default function DespesasPage() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const { month, range: monthRange, goToPreviousMonth, goToNextMonth } = useMonthNavigator();
     const [expenses, setExpenses] = useState([]);
     const [summary, setSummary] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [modalExpense, setModalExpense] = useState(undefined);
 
+    const monthLabel = useMemo(
+        () => new Intl.DateTimeFormat(i18n.language, { month: 'long', year: 'numeric' }).format(month),
+        [month, i18n.language]
+    );
+
+    const monthTotal = useMemo(
+        () => expenses.reduce((sum, expense) => sum + Number(expense.amount), 0),
+        [expenses]
+    );
+
+    const defaultExpenseDate = useMemo(() => {
+        const today = new Date();
+        const isCurrentMonth = today.getFullYear() === month.getFullYear() && today.getMonth() === month.getMonth();
+
+        return toDateString(isCurrentMonth ? today : month);
+    }, [month]);
+
     function load() {
-        return fetchAdminExpenses()
+        return fetchAdminExpenses(monthRange)
             .then(({ data }) => {
                 setExpenses(data.expenses.data);
                 setSummary(data.summary);
@@ -25,8 +45,9 @@ export default function DespesasPage() {
     }
 
     useEffect(() => {
+        setLoading(true);
         load().finally(() => setLoading(false));
-    }, [t]);
+    }, [t, monthRange.from, monthRange.to]);
 
     function handleSaved() {
         load();
@@ -56,7 +77,6 @@ export default function DespesasPage() {
                 </button>
             </div>
 
-            {loading && <p className="mt-2 text-sm text-muted">{t('common.loading')}</p>}
             {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
 
             {summary && (
@@ -66,14 +86,20 @@ export default function DespesasPage() {
                         value={formatCurrency(summary.total, 'pt-BR')}
                     />
                     <StatTile
-                        label={t('adminFinanceiro.expensesThisMonth')}
-                        value={formatCurrency(summary.this_month, 'pt-BR')}
+                        label={t('adminFinanceiro.expensesInMonth', { month: monthLabel })}
+                        value={formatCurrency(monthTotal, 'pt-BR')}
                     />
                 </div>
             )}
 
+            <div className="mt-6">
+                <MonthNavigator month={month} onPrevious={goToPreviousMonth} onNext={goToNextMonth} />
+            </div>
+
+            {loading && <p className="mt-2 text-center text-sm text-muted">{t('common.loading')}</p>}
+
             {!loading && expenses.length === 0 && !error && (
-                <p className="mt-4 text-sm text-muted">{t('adminFinanceiro.expensesEmpty')}</p>
+                <p className="mt-4 text-center text-sm text-muted">{t('adminFinanceiro.expensesEmptyMonth')}</p>
             )}
 
             {expenses.length > 0 && (
@@ -97,8 +123,15 @@ export default function DespesasPage() {
                                             new Date(`${expense.expense_date}T00:00:00`)
                                         )}
                                     </td>
-                                    <td className="py-3 pr-4 text-ink">{expense.description}</td>
-                                    <td className="py-3 pr-4 text-muted">{expense.category ?? '—'}</td>
+                                    <td className="py-3 pr-4 text-ink">
+                                        {expense.description}
+                                        {expense.recurring_group_id && (
+                                            <span className="ml-2 rounded-full bg-line px-2 py-0.5 text-xs text-muted">
+                                                {expense.installment_number}/{expense.installment_total}
+                                            </span>
+                                        )}
+                                    </td>
+                                    <td className="py-3 pr-4 text-muted">{expense.category?.name ?? '—'}</td>
                                     <td className="py-3 pr-4 font-medium text-ink">
                                         {formatCurrency(expense.amount, 'pt-BR')}
                                     </td>
@@ -126,6 +159,7 @@ export default function DespesasPage() {
             {modalExpense !== undefined && (
                 <ExpenseFormModal
                     expense={modalExpense}
+                    defaultDate={defaultExpenseDate}
                     onClose={() => setModalExpense(undefined)}
                     onSaved={handleSaved}
                 />

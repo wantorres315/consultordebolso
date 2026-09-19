@@ -9,7 +9,14 @@
       "Bash(php -l app/Notifications/AccountInvitationNotification.php)",
       "Bash(php -l lang/pt_BR/notifications.php)",
       "Bash(php -l lang/en/notifications.php)",
-      "Bash(php -l lang/es/notifications.php)"
+      "Bash(php -l lang/es/notifications.php)",
+      "Bash(composer audit *)",
+      "Bash(xargs grep -l \"fallback\" -i)",
+      "Bash(php -l app/Models/Questionnaire.php)",
+      "Bash(php -l app/Models/QuestionnaireSection.php)",
+      "Bash(php -l app/Models/QuestionnaireQuestion.php)",
+      "Bash(php -l /c/laragon/www/consultordebolso/app/Http/Controllers/Admin/QuestionnaireController.php)",
+      "Bash(php -l /c/laragon/www/consultordebolso/app/Http/Controllers/Admin/Concerns/FiltersTranslations.php)"
     ]
   }
 }
